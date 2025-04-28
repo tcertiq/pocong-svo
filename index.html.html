@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Build Simple Sentences (SVO) with Pocong!</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+      background-color: #fff8f0;
+    }
+    #pocong {
+      position: relative;
+      display: inline-block;
+      margin-top: 20px;
+      transition: transform 0.3s ease;
+    }
+    .clickable {
+      position: absolute;
+      width: 100%;
+      cursor: pointer;
+    }
+    #head {
+      top: 5%; height: 20%;
+    }
+    #heart {
+      top: 30%; height: 20%;
+    }
+    #leg {
+      top: 60%; height: 25%;
+    }
+    input {
+      margin: 10px;
+      padding: 5px;
+      font-size: 16px;
+    }
+    #sentence {
+      margin-top: 20px;
+      font-size: 22px;
+      font-weight: bold;
+      color: #333;
+      transition: all 0.5s ease;
+    }
+    #notes {
+      background-color: #f0f8ff;
+      padding: 15px;
+      border-radius: 10px;
+    }
+    .glow {
+      color: #ff6600;
+      text-shadow: 0 0 10px #ff6600, 0 0 20px #ff9900;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="notes">
+    <h2>How to Write a Simple Sentence (SVO)</h2>
+    <p>
+      <strong>Subject (S)</strong> = Who or what the sentence is about.<br>
+      <strong>Verb (V)</strong> = What the subject is doing.<br>
+      <strong>Object (O)</strong> = What is receiving the action.
+    </p>
+    <p>
+      Example: <em>Ali (S) eats (V) pizza (O).</em>
+    </p>
+    <p>
+      Now, click on the pocong parts to build your own sentence!
+    </p>
+  </div>
+
+  <div id="pocong">
+    <img src="pocong.png" alt="Pocong Figure" width="200" id="pocongImg">
+
+    <div id="head" class="clickable" onclick="editPart('subject')"></div>
+    <div id="heart" class="clickable" onclick="editPart('verb')"></div>
+    <div id="leg" class="clickable" onclick="editPart('object')"></div>
+  </div>
+
+  <div id="inputs">
+    <input type="text" id="subject" placeholder="Subject" onchange="updateSentence()">
+    <input type="text" id="verb" placeholder="Verb" onchange="updateSentence()">
+    <input type="text" id="object" placeholder="Object" onchange="updateSentence()">
+  </div>
+
+  <div id="sentence">Your sentence will appear here.</div>
+
+  <!-- Sound Effect -->
+  <audio id="popSound" src="https://www.soundjay.com/buttons/sounds/button-16.mp3"></audio>
+
+<script>
+  function editPart(part) {
+    const pop = document.getElementById('popSound');
+    pop.play(); // Play pop sound
+
+    const word = prompt("Enter a " + part + ":");
+    if (word) {
+      document.getElementById(part).value = word;
+      updateSentence();
+    }
+  }
+
+  function updateSentence() {
+    const subject = document.getElementById('subject').value;
+    const verb = document.getElementById('verb').value;
+    const object = document.getElementById('object').value;
+
+    const sentenceDiv = document.getElementById('sentence');
+    const pocongImg = document.getElementById('pocongImg');
+
+    if (subject && verb && object) {
+      sentenceDiv.innerText = subject + " " + verb + " " + object + ".";
+      sentenceDiv.classList.add('glow');
+
+      // Pocong wiggle animation
+      pocongImg.style.transform = 'rotate(10deg)';
+      setTimeout(() => {
+        pocongImg.style.transform = 'rotate(-10deg)';
+      }, 150);
+      setTimeout(() => {
+        pocongImg.style.transform = 'rotate(0deg)';
+      }, 300);
+
+      // Remove glow after 1s
+      setTimeout(() => {
+        sentenceDiv.classList.remove('glow');
+      }, 1500);
+
+    } else {
+      sentenceDiv.innerText = "Your sentence will appear here.";
+      sentenceDiv.classList.remove('glow');
+    }
+  }
+</script>
+
+</body>
+</html>
